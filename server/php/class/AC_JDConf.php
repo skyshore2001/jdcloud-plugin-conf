@@ -19,7 +19,10 @@ class AC2_JDConf extends AC0_JDConf
 	function api_get() {
 		$name = mparam("name");
 		if (!in_array($name, JDConf::$confArr)) {
-			return dbExpr(Cinf::getValue($name));
+			$val = Cinf::getValue($name);
+			if ($val[0] != '[' && $val[0] != '{')
+				return;
+			return dbExpr($val);
 		}
 		return getConf($name);
 	}
